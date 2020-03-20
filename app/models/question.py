@@ -25,3 +25,7 @@ class Question(Document):
     category = db.StringField(required=True)
     location = db.EmbeddedDocumentField(Location, required=True)
     answers = db.ListField(db.ReferenceField(Answer))
+
+    @classmethod
+    def find_by_id(cls, _id):
+        return cls.objects(id=_id).first()

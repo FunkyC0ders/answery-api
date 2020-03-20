@@ -32,10 +32,10 @@ db.init_app(app)
 
 # GraphQL
 from flask_graphql import GraphQLView
-# from api import schema
-# from api.auth import add_claims_to_access_token, user_identity_lookup
+from app.api import schema
+from app.api.auth import user_identity_lookup, add_claims_to_access_token
 
-# app.add_url_rule('/api', view_func=GraphQLView.as_view('api', schema=schema, graphiql=True))
+app.add_url_rule('/api', view_func=GraphQLView.as_view('api', schema=schema, graphiql=True))
 
 
 # URL
