@@ -3,12 +3,7 @@ from flask_mongoengine import Document
 from datetime import datetime
 from .user import User
 from .answer import Answer
-from .general import Reaction
-
-
-class Location(db.EmbeddedDocument):
-    country = db.StringField(required=True)
-    city = db.StringField(required=True)
+from .general import Reaction, Location
 
 
 class Question(Document):

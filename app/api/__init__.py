@@ -1,12 +1,14 @@
-from graphene import Schema, ObjectType, Field, String, Boolean
+from graphene import Schema, ObjectType, Field, String, Boolean, ID
 from graphql import GraphQLError
 from werkzeug.security import check_password_hash
 from flask_jwt_extended import jwt_required, jwt_refresh_token_required, get_raw_jwt, get_jwt_identity
 from .user import SignIn, Signup, User as UserType
 from .auth import Token, create_tokens, blacklist, refresh_access_token
 from .question import CreateQuestion, Question as QuestionType
+from .answer import AnswerQuestion, Answer as AnswerType, ReplyToAnswer, Reply as ReplyType
 from app.models.user import User as UserModel
 from app.models.question import Question as QuestionModel
+from app.models.answer import Answer as AnswerModel, Reply as ReplyModel
 import json
 
 
@@ -55,13 +57,31 @@ class QueryType(ObjectType):
         return user.avatar
 
     # Question
-    question = Field(QuestionType, _id=String(required=True), required=True)
+    question = Field(QuestionType, _id=ID(required=True), required=True)
 
     @staticmethod
     @jwt_required
     def resolve_question(root, info, _id):
         question = QuestionModel.find_by_id(_id)
         return question
+
+    # Answer
+    answer = Field(AnswerType, _id=ID(), required=True)
+
+    @staticmethod
+    @jwt_required
+    def resolve_answer(root, info, _id):
+        answer = AnswerModel.find_by_id(_id)
+        return answer
+
+    # Reply
+    reply = Field(ReplyType, _id=ID(), required=True)
+
+    @staticmethod
+    @jwt_required
+    def resolve_reply(root, info, _id):
+        reply = ReplyModel.find_by_id(_id)
+        return reply
 
 
 class MutationType(ObjectType):
@@ -74,6 +94,12 @@ class MutationType(ObjectType):
 
     # Question
     create_question = CreateQuestion.Field(required=True)
+
+    # Answer
+    answer_question = AnswerQuestion.Field(required=True)
+
+    # Reply
+    reply_to_answer = ReplyToAnswer.Field(required=True)
 
 
 schema = Schema(query=QueryType, mutation=MutationType)

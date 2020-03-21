@@ -5,13 +5,18 @@ from .user import User
 from .general import Reaction
 
 
-class Replies(Document):
+class Reply(Document):
     meta = {"collection": "answers", "allow_inheritance": True}
+
     created_by = db.ReferenceField(User, required=True)
-    content = db.StringField()
+    content = db.StringField(required=True)
     creation_date = db.DateTimeField(required=True, default=datetime.utcnow)
     reactions = db.EmbeddedDocumentListField(Reaction)
 
+    @classmethod
+    def find_by_id(cls, _id):
+        return cls.objects(id=_id).first()
 
-class Answer(Replies):
-    replies = db.ListField(db.ReferenceField(Replies))
+
+class Answer(Reply):
+    replies = db.ListField(db.ReferenceField(Reply))
