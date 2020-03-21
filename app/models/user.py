@@ -9,7 +9,7 @@ class User(Document):
     name = db.StringField(required=True)
     email = db.EmailField(required=True, unique=True)
     password = db.StringField(required=True)
-    avatar = db.URLField()
+    avatar = db.StringField()
     creation_date = db.DateTimeField(required=True, default=datetime.utcnow)
     verified = db.BooleanField(required=True, default=False)
 

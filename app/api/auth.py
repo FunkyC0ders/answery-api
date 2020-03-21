@@ -32,7 +32,7 @@ def add_claims_to_access_token(user):
 
 @jwt.user_identity_loader
 def user_identity_lookup(user):
-    return {"_id": str(user.id),
+    return {"id": str(user.id),
             "email": user.email,
             "name": user.name}
 

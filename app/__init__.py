@@ -39,6 +39,6 @@ app.add_url_rule('/api', view_func=GraphQLView.as_view('api', schema=schema, gra
 
 
 # URL
-# from web import web
-#
-# app.register_blueprint(web)
+from app.web import web
+
+app.register_blueprint(web)

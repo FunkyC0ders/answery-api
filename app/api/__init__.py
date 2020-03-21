@@ -46,14 +46,14 @@ class QueryType(ObjectType):
     @jwt_refresh_token_required
     def resolve_refresh(root, info):
         current_user = get_jwt_identity()
-        user = UserModel.find_by_id(current_user["_id"])
+        user = UserModel.find_by_id(current_user["id"])
         return refresh_access_token(user)
 
     @staticmethod
     @jwt_required
     def resolve_avatar(root, info):
         current_user = get_jwt_identity()
-        user = UserModel.find_by_id(current_user._id)
+        user = UserModel.find_by_id(current_user["id"])
         return user.avatar
 
     # Question

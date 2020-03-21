@@ -16,7 +16,7 @@ class Question(Document):
     creation_date = db.DateTimeField(required=True, default=datetime.utcnow)
     view_count = db.IntField()
     reactions = db.EmbeddedDocumentListField(Reaction)
-    images = db.ListField(db.URLField())
+    images = db.ListField(db.StringField())
     category = db.StringField(required=True)
     location = db.EmbeddedDocumentField(Location, required=True)
     answers = db.ListField(db.ReferenceField(Answer))

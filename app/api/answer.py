@@ -61,7 +61,7 @@ class ReplyToAnswer(Mutation):
         errors = {}
 
         current_user = get_jwt_identity()
-        user = UserModel.find_by_id(current_user["_id"])
+        user = UserModel.find_by_id(current_user["id"])
         if not user:
             errors["user"] = "not found"
 
@@ -102,7 +102,7 @@ class AnswerQuestion(Mutation):
         errors = {}
 
         current_user = get_jwt_identity()
-        user = UserModel.find_by_id(current_user["_id"])
+        user = UserModel.find_by_id(current_user["id"])
         if not user:
             errors["user"] = "not found"
 

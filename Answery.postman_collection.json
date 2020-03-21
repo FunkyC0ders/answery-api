@@ -1,0 +1,261 @@
+{
+	"info": {
+		"_postman_id": "122773b8-d327-45db-81eb-2bf2cdb0a16a",
+		"name": "Answery",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create_question",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ4MjM5MDYsIm5iZiI6MTU4NDgyMzkwNiwianRpIjoiYjVlY2NkMGQtYjM2Zi00NDI1LWFlMjYtZWIxMTIzZWU5NGY2IiwiaWRlbnRpdHkiOnsiaWQiOiI1ZTc0ZDRhZWEwZjU2YjNiOTEzZGQxODQiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJuYW1lIjoidGVzdGVyIn0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InZlcmlmaWVkIjpmYWxzZSwic3RhdGUiOiJkZXZlbG9wbWVudCJ9fQ.qZTOrGnty0JMWKlZv9L0IFctM0Jyx78V-6hlVf281AM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation CreateQuestion{\n    createQuestion(questionData: {title: \"another question\" category: \"test\" location: {country: \"USA\" city: \"NYC\"}}){\n        question{\n            id\n            title\n            category\n            createdBy{\n                name\n                email\n            }\n            creationDate\n        }\n    }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign_in",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query{\n  signIn(email: \"test@test.com\" password: \"123qweasd\"){\n    token{\n      access\n      refresh\n    }\n  }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "answer_question",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ3OTcwNjksIm5iZiI6MTU4NDc5NzA2OSwianRpIjoiNTY4ZjE3ZGQtMmIwOC00MmFmLWJjYjktMTY2NzdiMmFhN2NhIiwiaWRlbnRpdHkiOnsiX2lkIjoiNWU3NGQ0YWVhMGY1NmIzYjkxM2RkMTg0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwibmFtZSI6InRlc3RlciJ9LCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJ2ZXJpZmllZCI6ZmFsc2UsInN0YXRlIjoiZGV2ZWxvcG1lbnQifX0.-Y7-ZEkuJ88gsviKp5Q8IqVAPYPsmg1O2xTXUew38uw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "\nmutation AnswerQuestion{\n  answerQuestion(questionId:\"5e76134b4cf2c128ff5286b9\" answerData:{content:\"some answer\"}){\n    answer{\n      id\n      content\n      createdBy{\n        name\n        email\n      }\n      creationDate\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refresh",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ4MjM2NTQsIm5iZiI6MTU4NDgyMzY1NCwianRpIjoiOTNmOWFlN2EtZWIyMi00NzNlLTk1MDUtOGRiYjc2MjdmMjBkIiwiZXhwIjoxNTg0OTEwMDU0LCJpZGVudGl0eSI6eyJpZCI6IjVlNzRkNGFlYTBmNTZiM2I5MTNkZDE4NCIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsIm5hbWUiOiJ0ZXN0ZXIifSwidHlwZSI6InJlZnJlc2gifQ.QzzO8xRuKOKChjycEdhaf1n8t-sZxL4uKI93PGecHKo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query Refresh{\n  refresh{\n    access\n  }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reply_to_answer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ3OTgxMzEsIm5iZiI6MTU4NDc5ODEzMSwianRpIjoiZTVlNmJjOTctYTA2Zi00ZjlhLWJjNWEtODc0OGFiYzQzYmE1IiwiaWRlbnRpdHkiOnsiX2lkIjoiNWU3NGQ0YWVhMGY1NmIzYjkxM2RkMTg0IiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwibmFtZSI6InRlc3RlciJ9LCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2NsYWltcyI6eyJ2ZXJpZmllZCI6ZmFsc2UsInN0YXRlIjoiZGV2ZWxvcG1lbnQifX0.-v4m_d0VuUCj8XNv4stgjoFgKJHE337ehpWyauplJRw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "\nmutation ReplyToAnswer{\n  replyToAnswer(answerId:\"5e761668a1a5dc6257033579\" replyData:{content:\"some reply\"}){\n    reply{\n      id\n      content\n      createdBy{\n        name\n        email\n      }\n      creationDate\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "upload_img",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ4MjM5MDYsIm5iZiI6MTU4NDgyMzkwNiwianRpIjoiYjVlY2NkMGQtYjM2Zi00NDI1LWFlMjYtZWIxMTIzZWU5NGY2IiwiaWRlbnRpdHkiOnsiaWQiOiI1ZTc0ZDRhZWEwZjU2YjNiOTEzZGQxODQiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJuYW1lIjoidGVzdGVyIn0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InZlcmlmaWVkIjpmYWxzZSwic3RhdGUiOiJkZXZlbG9wbWVudCJ9fQ.qZTOrGnty0JMWKlZv9L0IFctM0Jyx78V-6hlVf281AM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "img",
+							"type": "file",
+							"src": "/home/mohamed/Downloads/4mQUAjWgvoM.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/img/5e767d7718d7b8d43c5826ed",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"img",
+						"5e767d7718d7b8d43c5826ed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show_img",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/img/lYUXaT6Z_7JkCHpPoVpDxA.jpg",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"img",
+						"lYUXaT6Z_7JkCHpPoVpDxA.jpg"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
