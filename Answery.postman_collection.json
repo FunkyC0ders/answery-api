@@ -13,7 +13,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ4MjM5MDYsIm5iZiI6MTU4NDgyMzkwNiwianRpIjoiYjVlY2NkMGQtYjM2Zi00NDI1LWFlMjYtZWIxMTIzZWU5NGY2IiwiaWRlbnRpdHkiOnsiaWQiOiI1ZTc0ZDRhZWEwZjU2YjNiOTEzZGQxODQiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJuYW1lIjoidGVzdGVyIn0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InZlcmlmaWVkIjpmYWxzZSwic3RhdGUiOiJkZXZlbG9wbWVudCJ9fQ.qZTOrGnty0JMWKlZv9L0IFctM0Jyx78V-6hlVf281AM",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ4NzgwNzgsIm5iZiI6MTU4NDg3ODA3OCwianRpIjoiOWNmMWRlYzYtNmJlOC00MDI2LWJjM2ItZjczMGY2YzliNmZmIiwiaWRlbnRpdHkiOnsiaWQiOiI1ZTc0ZDRhZWEwZjU2YjNiOTEzZGQxODQiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJuYW1lIjoidGVzdGVyIn0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InZlcmlmaWVkIjpmYWxzZSwic3RhdGUiOiJkZXZlbG9wbWVudCJ9fQ.uFuxesLho39hI5OaeCGmc_GDkmlMzFPcZxt_4dSkmn8",
 							"type": "string"
 						}
 					]
@@ -23,7 +23,7 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "mutation CreateQuestion{\n    createQuestion(questionData: {title: \"another question\" category: \"test\" location: {country: \"USA\" city: \"NYC\"}}){\n        question{\n            id\n            title\n            category\n            createdBy{\n                name\n                email\n            }\n            creationDate\n        }\n    }\n}\n",
+						"query": "mutation CreateQuestion{\n    createQuestion(questionData: {title: \"another new question\" categoryId: \"5e7752e0536b69f801402078\" locationId: \"5e7761713c2c0d09727d3a18\"}){\n        question{\n            id\n            title\n            category{\n                id\n                name{\n                    language\n                    text\n                }\n            }\n            location{\n                id\n                country{\n                    language\n                    text\n                }\n                city{\n                    language\n                    text\n                }\n            }\n            createdBy{\n                name\n                email\n            }\n            creationDate\n        }\n    }\n}\n",
 						"variables": ""
 					}
 				},
@@ -52,7 +52,7 @@
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "query{\n  signIn(email: \"test@test.com\" password: \"123qweasd\"){\n    token{\n      access\n      refresh\n    }\n  }\n}",
+						"query": "query SignIn{\n  signIn(signInData:{email: \"test@test.com\" password: \"123qweasd\"}){\n    token{\n      access\n      refresh\n    }\n  }\n}",
 						"variables": ""
 					}
 				},
@@ -251,6 +251,162 @@
 					"path": [
 						"img",
 						"lYUXaT6Z_7JkCHpPoVpDxA.jpg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_category",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ4NzgwNzgsIm5iZiI6MTU4NDg3ODA3OCwianRpIjoiOWNmMWRlYzYtNmJlOC00MDI2LWJjM2ItZjczMGY2YzliNmZmIiwiaWRlbnRpdHkiOnsiaWQiOiI1ZTc0ZDRhZWEwZjU2YjNiOTEzZGQxODQiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJuYW1lIjoidGVzdGVyIn0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InZlcmlmaWVkIjpmYWxzZSwic3RhdGUiOiJkZXZlbG9wbWVudCJ9fQ.uFuxesLho39hI5OaeCGmc_GDkmlMzFPcZxt_4dSkmn8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCategory{\n  addCategory(categoryData:{name: [{language:\"en\" text:\"test\"}, {language:\"ar\" text:\"اختبار\"}]}){\n    category{\n      id\n      name{\n        language\n        text\n      }\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "categories",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ4NzgwNzgsIm5iZiI6MTU4NDg3ODA3OCwianRpIjoiOWNmMWRlYzYtNmJlOC00MDI2LWJjM2ItZjczMGY2YzliNmZmIiwiaWRlbnRpdHkiOnsiaWQiOiI1ZTc0ZDRhZWEwZjU2YjNiOTEzZGQxODQiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJuYW1lIjoidGVzdGVyIn0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InZlcmlmaWVkIjpmYWxzZSwic3RhdGUiOiJkZXZlbG9wbWVudCJ9fQ.uFuxesLho39hI5OaeCGmc_GDkmlMzFPcZxt_4dSkmn8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query{\n  categoryList{\n    id\n    name{\n      language\n      text\n    }\n  }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_location",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ4NzgwNzgsIm5iZiI6MTU4NDg3ODA3OCwianRpIjoiOWNmMWRlYzYtNmJlOC00MDI2LWJjM2ItZjczMGY2YzliNmZmIiwiaWRlbnRpdHkiOnsiaWQiOiI1ZTc0ZDRhZWEwZjU2YjNiOTEzZGQxODQiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJuYW1lIjoidGVzdGVyIn0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InZlcmlmaWVkIjpmYWxzZSwic3RhdGUiOiJkZXZlbG9wbWVudCJ9fQ.uFuxesLho39hI5OaeCGmc_GDkmlMzFPcZxt_4dSkmn8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddLocation{\n  addLocation(locationData:{country:[{language:\"en\" text:\"Egypt\"}, {language:\"ar\" text:\"مصر\"}] city:[{language:\"en\" text:\"Cairo\"}, {language:\"ar\" text:\"القاهرة\"}]}){\n    location{\n      id\n      country{\n        language\n        text\n      }\n      city{\n        language\n        text\n      }\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "locations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ4NzgwNzgsIm5iZiI6MTU4NDg3ODA3OCwianRpIjoiOWNmMWRlYzYtNmJlOC00MDI2LWJjM2ItZjczMGY2YzliNmZmIiwiaWRlbnRpdHkiOnsiaWQiOiI1ZTc0ZDRhZWEwZjU2YjNiOTEzZGQxODQiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJuYW1lIjoidGVzdGVyIn0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InZlcmlmaWVkIjpmYWxzZSwic3RhdGUiOiJkZXZlbG9wbWVudCJ9fQ.uFuxesLho39hI5OaeCGmc_GDkmlMzFPcZxt_4dSkmn8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query Locations{\n  locationList{\n    id\n    country{\n      language\n      text\n    }\n    city{\n      language\n      text\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api"
 					]
 				}
 			},

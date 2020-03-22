@@ -54,5 +54,5 @@ def create_fresh_token(user):
 
 def refresh_access_token(user):
     print("Refreshing...")
-    new_token = create_access_token(identity=user, expires_delta=timedelta(minutes=0), fresh=False)
+    new_token = create_access_token(identity=user, expires_delta=timedelta(minutes=10), fresh=False)
     return Token(access=new_token)

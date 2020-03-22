@@ -33,6 +33,12 @@ class SignIn(ObjectType):
     token = Field(Token, required=True)
 
 
+class SignInInput(InputObjectType):
+    email = String(required=True)
+    password = String(required=True)
+    remember_my = Boolean()
+
+
 class NewUser(CommonAttributes, InputObjectType):
     password = String(required=True)
 

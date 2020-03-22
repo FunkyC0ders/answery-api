@@ -1,12 +1,15 @@
 from graphene import ObjectType, Mutation, InputObjectType, Interface, String, ID, Boolean, Int, DateTime, Field, List
 from graphql import GraphQLError
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from app.models.question import Question as QuestionModel
-from app.models.user import User as UserModel
 from .user import User
-from .location import Location, LocationInput
+from .location import Location
 from .reaction import Reaction
 from .answer import Answer
+from .category import Category
+from app.models.question import Question as QuestionModel
+from app.models.user import User as UserModel
+from app.models.category import Category as CategoryModel
+from app.models.location import Location as LocationModel
 import json
 
 
@@ -14,7 +17,6 @@ class CommonAttributes(object):
     title = String(required=True)
     content = String()
     images = List(String)
-    category = String(required=True)
 
 
 class QuestionInterface(CommonAttributes, Interface):
@@ -24,6 +26,7 @@ class QuestionInterface(CommonAttributes, Interface):
     creation_date = DateTime(required=True)
     view_count = Int(required=True)
     location = Field(Location, required=True)
+    category = Field(Category, required=True)
     reactions = Field(Reaction)
     answers = List(Answer)
 
@@ -36,7 +39,8 @@ class Question(ObjectType):
 
 
 class NewQuestion(CommonAttributes, InputObjectType):
-    location = LocationInput(required=True)
+    location_id = ID(required=True)
+    category_id = ID(required=True)
 
 
 class CreateQuestion(Mutation):
@@ -59,10 +63,20 @@ class CreateQuestion(Mutation):
         if not user:
             errors["user"] = "not found"
 
+        category = CategoryModel.find_by_id(question_data["category_id"])
+        if not category:
+            errors["category"] = "not found"
+
+        location = LocationModel.find_by_id(question_data["location_id"])
+        if not location:
+            errors["location"] = "not found"
+
         if errors:
             raise GraphQLError(json.dumps(errors))
 
-        question = QuestionModel(created_by=user, **question_data)
+        del question_data["category_id"]
+        del question_data["location_id"]
+        question = QuestionModel(created_by=user, category=category, location=location, **question_data)
         question.save()
 
         return CreateQuestion(question=question)
