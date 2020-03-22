@@ -1,5 +1,6 @@
 from graphene import ObjectType, Mutation, InputObjectType, Interface, String, Boolean, Field, DateTime
 from graphql import GraphQLError
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash
 from .auth import Token, create_tokens
 from app.models.user import User as UserModel
@@ -9,12 +10,13 @@ import json
 class CommonAttributes(object):
     name = String(required=True)
     email = String(required=True)
-    avatar = String()
+    # avatar = String()
 
 
 class UserInterface(CommonAttributes, Interface):
     creation_date = DateTime(required=True)
     verified = Boolean(required=True)
+    avatar = String()
 
 
 class User(ObjectType):
@@ -46,7 +48,7 @@ class NewUser(CommonAttributes, InputObjectType):
 class EditUser(InputObjectType):
     name = String()
     email = String()
-    avatar = String()
+    # avatar = String()
 
 
 class Signup(Mutation):
@@ -76,3 +78,40 @@ class Signup(Mutation):
 
         user.save()
         return Signup(user=user, token=create_tokens(user))
+
+
+class UpdateUser(Mutation):
+    class Meta:
+        name = "UpdateUser"
+        description = "..."
+
+    class Arguments:
+        user_data = EditUser(required=True)
+
+    user = Field(lambda: User, required=True)
+
+    @staticmethod
+    @jwt_required
+    def mutate(root, info, user_data):
+        errors = {}
+
+        current_user = get_jwt_identity()
+        user = UserModel.find_by_id(current_user["id"])
+        if not user:
+            errors["user"] = "not found"
+
+        if "email" in user_data.keys():
+            print(user_data["email"])
+            email_check = UserModel.find_by_email(user_data["email"])
+            if email_check and email_check != user:
+                errors["email"] = "already exists"
+
+        if errors:
+            raise GraphQLError(json.dumps(errors))
+
+        for key in user_data.keys():
+            setattr(user, key, user_data[key])
+
+        user.save()
+
+        return UpdateUser(user=user)

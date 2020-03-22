@@ -6,7 +6,7 @@
   * [x] Sign out
 - __User Related__
   * [x] Upload avatar
-  * [ ] Edit profile
+  * [x] Edit profile
   * [ ] Delete account
 - __Questions Related__
   * [x] Create question
