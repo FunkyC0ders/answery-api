@@ -386,6 +386,84 @@
 			"response": []
 		},
 		{
+			"name": "delete_avatar",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ4NzgwNzgsIm5iZiI6MTU4NDg3ODA3OCwianRpIjoiOWNmMWRlYzYtNmJlOC00MDI2LWJjM2ItZjczMGY2YzliNmZmIiwiaWRlbnRpdHkiOnsiaWQiOiI1ZTc0ZDRhZWEwZjU2YjNiOTEzZGQxODQiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJuYW1lIjoidGVzdGVyIn0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InZlcmlmaWVkIjpmYWxzZSwic3RhdGUiOiJkZXZlbG9wbWVudCJ9fQ.uFuxesLho39hI5OaeCGmc_GDkmlMzFPcZxt_4dSkmn8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation DeleteAvatar{\n  deleteAvatar{\n    user{\n      avatar\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_img",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ4NzgwNzgsIm5iZiI6MTU4NDg3ODA3OCwianRpIjoiOWNmMWRlYzYtNmJlOC00MDI2LWJjM2ItZjczMGY2YzliNmZmIiwiaWRlbnRpdHkiOnsiaWQiOiI1ZTc0ZDRhZWEwZjU2YjNiOTEzZGQxODQiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJuYW1lIjoidGVzdGVyIn0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InZlcmlmaWVkIjpmYWxzZSwic3RhdGUiOiJkZXZlbG9wbWVudCJ9fQ.uFuxesLho39hI5OaeCGmc_GDkmlMzFPcZxt_4dSkmn8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation DeleteImg{\n  deleteImg(fileName:\"SQMDO146yDQihNWTRPZdGw.jpg\" questionId:\"5e76134b4cf2c128ff5286b9\"){\n    question{\n      images\n    }\n  }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "upload_img",
 			"request": {
 				"auth": {
@@ -406,12 +484,12 @@
 						{
 							"key": "img",
 							"type": "file",
-							"src": "/home/mohamed/Downloads/4mQUAjWgvoM.jpg"
+							"src": "/home/mohamed/Downloads/9wHAL209Nj8.jpg"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/img/5e767d7718d7b8d43c5826ed",
+					"raw": "http://127.0.0.1:5000/img/5e76134b4cf2c128ff5286b9",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -422,7 +500,7 @@
 					"port": "5000",
 					"path": [
 						"img",
-						"5e767d7718d7b8d43c5826ed"
+						"5e76134b4cf2c128ff5286b9"
 					]
 				}
 			},
@@ -472,7 +550,7 @@
 						{
 							"key": "avatar",
 							"type": "file",
-							"src": "/home/mohamed/Downloads/4mQUAjWgvoM.jpg"
+							"src": "/home/mohamed/Downloads/ceQHW841_9c.jpg"
 						}
 					]
 				},

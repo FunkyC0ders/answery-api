@@ -1,10 +1,13 @@
 from graphene import ObjectType, Mutation, InputObjectType, Interface, String, Boolean, Field, DateTime
 from graphql import GraphQLError
+from flask import url_for
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash
 from .auth import Token, create_tokens
 from app.models.user import User as UserModel
+from app.web import ROOT_PATH
 import json
+import os
 
 
 class CommonAttributes(object):
@@ -115,3 +118,38 @@ class UpdateUser(Mutation):
         user.save()
 
         return UpdateUser(user=user)
+
+
+class DeleteAvatar(Mutation):
+    class Meta:
+        name = "DeleteAvatar"
+        description = "..."
+
+    class Arguments:
+        pass
+
+    user = Field(lambda: User, required=True)
+
+    @staticmethod
+    @jwt_required
+    def mutate(root, info):
+        errors = {}
+
+        current_user = get_jwt_identity()
+        user = UserModel.find_by_id(current_user["id"])
+        if not user:
+            errors["user"] = "not found"
+
+        if not user.avatar:
+            errors["avatar"] = "not found"
+
+        if errors:
+            raise GraphQLError(json.dumps(errors))
+
+        file_path = ROOT_PATH + url_for("static", filename="avatar/{}".format(user.avatar))
+        os.remove(file_path)
+
+        user.avatar = None
+        user.save()
+
+        return DeleteAvatar(user=user)

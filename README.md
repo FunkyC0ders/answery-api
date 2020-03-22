@@ -7,10 +7,12 @@
 - __User Related__
   * [x] Upload avatar
   * [x] Edit profile
+  * [x] Delete avatar
   * [ ] Delete account
 - __Questions Related__
   * [x] Create question
   * [x] Upload images
+  * [x] Delete images
   * [ ] Like/Dislike a question
 - __Answer Related__
   * [x] Answer a question

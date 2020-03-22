@@ -2,9 +2,9 @@ from graphene import Schema, ObjectType, Field, String, Boolean, ID, List
 from graphql import GraphQLError
 from werkzeug.security import check_password_hash
 from flask_jwt_extended import jwt_required, jwt_refresh_token_required, get_raw_jwt, get_jwt_identity
-from .user import SignIn, Signup, User as UserType, SignInInput, UpdateUser
+from .user import SignIn, Signup, User as UserType, SignInInput, UpdateUser, DeleteAvatar
 from .auth import Token, create_tokens, blacklist, refresh_access_token
-from .question import CreateQuestion, Question as QuestionType
+from .question import CreateQuestion, Question as QuestionType, DeleteImg
 from .answer import AnswerQuestion, Answer as AnswerType, ReplyToAnswer, Reply as ReplyType
 from .category import Category as CategoryType, AddCategory
 from .location import Location as LocationType, AddLocation
@@ -125,9 +125,11 @@ class MutationType(ObjectType):
     # User
     signup = Signup.Field(required=True)
     update_user = UpdateUser.Field(required=True)
+    delete_avatar = DeleteAvatar.Field(required=True)
 
     # Question
     create_question = CreateQuestion.Field(required=True)
+    delete_img = DeleteImg.Field(required=True)
 
     # Answer
     answer_question = AnswerQuestion.Field(required=True)

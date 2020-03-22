@@ -16,11 +16,7 @@ ALLOWED_FORMATS = ["jpeg", "jpg", "png"]
 def avatar(file_name):
     file_path = ROOT_PATH + url_for("static", filename="avatar/{}".format(file_name))
 
-    try:
-        return send_file(file_path)
-    except Exception as e:
-        print(str(e))
-        return send_file(os.path.join(os.path.dirname(file_path), "default.svg"))
+    return send_file(file_path)
 
 
 @web.route("/avatar", methods=["POST"])
@@ -28,23 +24,23 @@ def avatar(file_name):
 def upload_avatar():
     if 'avatar' not in request.files:
         print("'avatar' key not found")
-        abort(404)
+        abort(404)  # Not Found
 
     file = request.files['avatar']
     if file.filename == '':
-        abort(400)
+        abort(400)  # Bad Request
 
     current_user = get_jwt_identity()
     user = User.find_by_id(current_user["id"])
 
     if not user:
-        abort(404)
+        abort(404)  # Not Found
 
     file_name = file.filename
     _, ext = file_name.rsplit('.', 1)
     
     if ext.lower() not in ALLOWED_FORMATS:
-        abort(406)
+        abort(406)  # Not Acceptable
 
     file_name = "{}.{}".format(token_urlsafe(16), ext)
     path = ROOT_PATH + url_for("static", filename="avatar/{}".format(file_name))
@@ -64,6 +60,7 @@ def upload_avatar():
 @web.route("/img/<string:file_name>", methods=["GET"])
 def img(file_name):
     file_path = ROOT_PATH + url_for("static", filename="img/{}".format(file_name))
+
     return send_file(file_path)
 
 
@@ -72,22 +69,22 @@ def img(file_name):
 def upload_img(question_id):
     if 'img' not in request.files:
         print("'img' key not found")
-        abort(404)
+        abort(404)  # Not Found
 
     file = request.files['img']
     if file.filename == '':
-        abort(400)
+        abort(400)  # Bad Request
 
     question = Question.find_by_id(question_id)
     if not question:
         print("Question not found")
-        abort(404)
+        abort(404)  # Not Found
 
     file_name = file.filename
     _, ext = file_name.rsplit('.', 1)
 
     if ext.lower() not in ALLOWED_FORMATS:
-        abort(406)
+        abort(406)  # Not Acceptable
 
     file_name = "{}.{}".format(token_urlsafe(16), ext)
     path = ROOT_PATH + url_for("static", filename="img/{}".format(file_name))
