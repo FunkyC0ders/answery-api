@@ -51,6 +51,10 @@ def upload_avatar():
 
     file.save(path)
 
+    if user.avatar:
+        old_path = ROOT_PATH + url_for("static", filename="avatar/{}".format(user.avatar))
+        os.remove(old_path)
+
     user.avatar = file_name
     user.save()
 
