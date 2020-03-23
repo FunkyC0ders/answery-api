@@ -2,11 +2,37 @@ from graphene import ObjectType, Mutation, InputObjectType, Interface, String, I
 from graphql import GraphQLError
 from flask_jwt_extended import jwt_required
 from .translation import Translation, NewTranslation
-from app.models.location import Location as LocationModel
+from app.models.location import City as CityModel, Country as CountryModel
+import json
 
 
 class CommonAttributes(object):
     pass
+
+
+class CountryInterface(Interface):
+    id = ID(required=True)
+    name = List(Translation, required=True)
+
+
+class Country(ObjectType):
+    class Meta:
+        name = "Country"
+        description = "..."
+        interfaces = (CountryInterface,)
+
+
+class CityInterface(Interface):
+    id = ID(required=True)
+    name = List(Translation, required=True)
+    country = Field(Country, required=True)
+
+
+class City(ObjectType):
+    class Meta:
+        name = "City"
+        description = "..."
+        interfaces = (CityInterface,)
 
 
 class LocationInterface(CommonAttributes, Interface):
@@ -22,27 +48,62 @@ class Location(ObjectType):
         interfaces = (LocationInterface,)
 
 
-class NewLocation(CommonAttributes, InputObjectType):
-    country = List(NewTranslation, required=True)
-    city = List(NewTranslation, required=True)
+class NewCountry(CommonAttributes, InputObjectType):
+    name = List(NewTranslation, required=True)
 
 
-class AddLocation(Mutation):
+class AddCountry(Mutation):
     class Meta:
-        name = "AddLocation"
+        name = "AddCountry"
         description = "..."
 
     class Arguments:
-        location_data = NewLocation(required=True)
+        country_data = NewCountry(required=True)
 
+    country = Field(lambda: Country, required=True)
+
+    @staticmethod
+    @jwt_required
+    def mutate(root, info, country_data):
+        errors = {}
+
+        country = CountryModel(**country_data)
+        country.save()
+
+        return AddCountry(country=country)
+
+
+class NewCity(CommonAttributes, InputObjectType):
+    name = List(NewTranslation, required=True)
+    country_id = ID(required=True)
+
+
+class AddCity(Mutation):
+    class Meta:
+        name = "AddCity"
+        description = "..."
+
+    class Arguments:
+        city_data = NewCity(required=True)
+
+    city = Field(lambda: City, required=True)
     location = Field(lambda: Location, required=True)
 
     @staticmethod
     @jwt_required
-    def mutate(root, info, location_data):
+    def mutate(root, info, city_data):
         errors = {}
 
-        location = LocationModel(**location_data)
-        location.save()
+        country = CountryModel.find_by_id(city_data["country_id"])
+        if not country:
+            errors["country"] = "not found"
 
-        return AddLocation(location=location)
+        if errors:
+            raise GraphQLError(json.dumps(errors))
+
+        del city_data["country_id"]
+
+        city = CityModel(country=country, **city_data)
+        city.save()
+
+        return AddCity(city=city, location=city.to_location())

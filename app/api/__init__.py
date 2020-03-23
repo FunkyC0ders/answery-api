@@ -7,12 +7,12 @@ from .auth import Token, create_tokens, blacklist, refresh_access_token
 from .question import CreateQuestion, Question as QuestionType, DeleteImg
 from .answer import AnswerQuestion, Answer as AnswerType, ReplyToAnswer, Reply as ReplyType
 from .category import Category as CategoryType, AddCategory
-from .location import Location as LocationType, AddLocation
+from .location import Location as LocationType, AddCountry, AddCity, Country as CountryType
 from app.models.user import User as UserModel
 from app.models.question import Question as QuestionModel
 from app.models.answer import Answer as AnswerModel, Reply as ReplyModel
 from app.models.category import Category as CategoryModel
-from app.models.location import Location as LocationModel
+from app.models.location import City as CityModel, Country as CountryModel
 import json
 
 
@@ -103,18 +103,32 @@ class QueryType(ObjectType):
     # Location
     location = Field(LocationType, _id=ID(required=True), required=True)
     location_list = List(LocationType, required=True)
+    country_list = List(CountryType, required=True)
+    location_by_country = List(LocationType, country_id=ID(required=True), required=True)
 
     @staticmethod
     @jwt_required
     def resolve_location(root, info, _id):
-        location = LocationModel.find_by_id(_id)
-        return location
+        city = CityModel.find_by_id(_id)
+        return city.to_location()
 
     @staticmethod
     @jwt_required
     def resolve_location_list(root, info):
-        location_list = LocationModel.find_all()
-        return location_list
+        city_list = CityModel.find_all()
+        return [city.to_location() for city in city_list]
+
+    @staticmethod
+    @jwt_required
+    def resolve_country_list(root, info):
+        country_list = CountryModel.find_all()
+        return country_list
+
+    @staticmethod
+    @jwt_required
+    def resolve_location_by_country(root, info, country_id):
+        city_list = CityModel.find_by_country(country_id)
+        return [city.to_location() for city in city_list]
 
 
 class MutationType(ObjectType):
@@ -141,7 +155,8 @@ class MutationType(ObjectType):
     add_category = AddCategory.Field(required=True)
 
     # Location
-    add_location = AddLocation.Field(required=True)
+    add_country = AddCountry.Field(required=True)
+    add_ciy = AddCity.Field(required=True)
 
 
 schema = Schema(query=QueryType, mutation=MutationType)

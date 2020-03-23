@@ -19,9 +19,11 @@
   * [x] Reply to an answer
   * [ ] Like/Dislike a answer
   * [ ] Like/Dislike a reply
-- __Search Related__
+- __Filter Related__
   * [x] Add new category
   * [x] List all categories
-  * [x] Add new location
+  * [x] Add new country
+  * [x] List all countries
+  * [x] Add new city
+  * [x] List all `cities` in a given `country`
   * [x] List all locations
-  * [ ] List all `cities` in a given `country`

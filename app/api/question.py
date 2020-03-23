@@ -10,7 +10,7 @@ from .category import Category
 from app.models.question import Question as QuestionModel
 from app.models.user import User as UserModel
 from app.models.category import Category as CategoryModel
-from app.models.location import Location as LocationModel
+from app.models.location import City as CityModel
 from app.web import ROOT_PATH
 import json
 import os
@@ -70,7 +70,7 @@ class CreateQuestion(Mutation):
         if not category:
             errors["category"] = "not found"
 
-        location = LocationModel.find_by_id(question_data["location_id"])
+        location = CityModel.find_by_id(question_data["location_id"])
         if not location:
             errors["location"] = "not found"
 

@@ -4,7 +4,7 @@ from datetime import datetime
 from .user import User
 from .answer import Answer
 from .general import Reaction
-from .location import Location
+from .location import City
 from .category import Category
 
 
@@ -20,7 +20,7 @@ class Question(Document):
     reactions = db.EmbeddedDocumentListField(Reaction)
     images = db.ListField(db.StringField())
     category = db.ReferenceField(Category, required=True, reverse_delete_rule=1)
-    location = db.ReferenceField(Location, required=True)
+    location = db.ReferenceField(City, required=True)
     answers = db.ListField(db.ReferenceField(Answer))
 
     @classmethod
