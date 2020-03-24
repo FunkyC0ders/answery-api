@@ -20,5 +20,5 @@ class Translation(ObjectType):
         interfaces = (TranslationInterface,)
 
 
-class NewTranslation(CommonAttributes, InputObjectType):
+class TranslationInput(CommonAttributes, InputObjectType):
     pass

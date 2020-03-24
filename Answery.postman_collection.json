@@ -87,6 +87,45 @@
 					"response": []
 				},
 				{
+					"name": "react_to_question",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODQ4NzgwNzgsIm5iZiI6MTU4NDg3ODA3OCwianRpIjoiOWNmMWRlYzYtNmJlOC00MDI2LWJjM2ItZjczMGY2YzliNmZmIiwiaWRlbnRpdHkiOnsiaWQiOiI1ZTc0ZDRhZWEwZjU2YjNiOTEzZGQxODQiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJuYW1lIjoidGVzdGVyIn0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyIsInVzZXJfY2xhaW1zIjp7InZlcmlmaWVkIjpmYWxzZSwic3RhdGUiOiJkZXZlbG9wbWVudCJ9fQ.uFuxesLho39hI5OaeCGmc_GDkmlMzFPcZxt_4dSkmn8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation ReactToQuestion{\n  reactToQuestion(questionId:\"5e76134b4cf2c128ff5286b9\" reactionData: {reaction:\"like\"}){\n      reactions{\n        user{\n          name\n          email\n        }\n        reaction\n      }\n    }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/api",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "reply_to_answer",
 					"request": {
 						"auth": {
@@ -237,14 +276,14 @@
 			"name": "user",
 			"item": [
 				{
-					"name": "sign_in",
+					"name": "sign_up",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query SignIn{\n  signIn(signInData:{email: \"test@test.com\" password: \"123qweasd\"}){\n    token{\n      access\n      refresh\n    }\n  }\n}",
+								"query": "mutation SignUp{\n  signup(userData:{name:\"tester\" email:\"tester@test.com\" password: \"123qweasd\"}){\n    user{\n      name\n      email\n      creationDate\n      verified\n      avatar\n    }\n    token{\n      access\n      refresh\n    }\n  }\n}\n",
 								"variables": ""
 							}
 						},
@@ -266,14 +305,14 @@
 					"response": []
 				},
 				{
-					"name": "sign_up",
+					"name": "sign_in",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation SignUp{\n  signup(userData:{name:\"tester\" email:\"tester@test.com\" password: \"123qweasd\"}){\n    user{\n      name\n      email\n      creationDate\n      verified\n      avatar\n    }\n    token{\n      access\n      refresh\n    }\n  }\n}\n",
+								"query": "query SignIn{\n  signIn(signInData:{email: \"test@test.com\" password: \"123qweasd\"}){\n    token{\n      access\n      refresh\n    }\n  }\n}",
 								"variables": ""
 							}
 						},

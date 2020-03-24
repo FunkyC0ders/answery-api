@@ -91,6 +91,7 @@ class UpdateUser(Mutation):
     class Arguments:
         user_data = EditUser(required=True)
 
+    ok = Boolean(required=True)
     user = Field(lambda: User, required=True)
 
     @staticmethod
@@ -117,7 +118,7 @@ class UpdateUser(Mutation):
 
         user.save()
 
-        return UpdateUser(user=user)
+        return UpdateUser(user=user, ok=True)
 
 
 class DeleteAvatar(Mutation):
@@ -128,6 +129,7 @@ class DeleteAvatar(Mutation):
     class Arguments:
         pass
 
+    ok = Boolean(required=True)
     user = Field(lambda: User, required=True)
 
     @staticmethod
@@ -152,4 +154,4 @@ class DeleteAvatar(Mutation):
         user.avatar = None
         user.save()
 
-        return DeleteAvatar(user=user)
+        return DeleteAvatar(user=user, ok=True)

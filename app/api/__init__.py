@@ -4,8 +4,8 @@ from werkzeug.security import check_password_hash
 from flask_jwt_extended import jwt_required, jwt_refresh_token_required, get_raw_jwt, get_jwt_identity
 from .user import SignIn, Signup, User as UserType, SignInInput, UpdateUser, DeleteAvatar
 from .auth import Token, create_tokens, blacklist, refresh_access_token
-from .question import CreateQuestion, Question as QuestionType, DeleteImg
-from .answer import AnswerQuestion, Answer as AnswerType, ReplyToAnswer, Reply as ReplyType
+from .question import CreateQuestion, Question as QuestionType, DeleteImg, ReactToQuestion
+from .answer import AnswerQuestion, Answer as AnswerType, ReplyToAnswer, Reply as ReplyType, ReactToAnswer, ReactToReply
 from .category import Category as CategoryType, AddCategory
 from .location import Location as LocationType, AddCountry, AddCity, Country as CountryType
 from app.models.user import User as UserModel
@@ -143,13 +143,16 @@ class MutationType(ObjectType):
 
     # Question
     create_question = CreateQuestion.Field(required=True)
+    react_to_question = ReactToQuestion.Field(required=True)
     delete_img = DeleteImg.Field(required=True)
 
     # Answer
     answer_question = AnswerQuestion.Field(required=True)
+    react_to_answer = ReactToAnswer.Field(required=True)
 
     # Reply
     reply_to_answer = ReplyToAnswer.Field(required=True)
+    react_to_reply = ReactToReply.Field(required=True)
 
     # Category
     add_category = AddCategory.Field(required=True)

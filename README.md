@@ -13,12 +13,15 @@
   * [x] Create question
   * [x] Upload images
   * [x] Delete images
-  * [ ] Like/Dislike a question
+  * [x] Like/Dislike a question
+  * [ ] Undo like/dislike a question
 - __Answer Related__
   * [x] Answer a question
   * [x] Reply to an answer
-  * [ ] Like/Dislike a answer
-  * [ ] Like/Dislike a reply
+  * [x] Like/Dislike a answer
+  * [ ] Undo like/dislike a answer
+  * [x] Like/Dislike a reply
+  * [ ] Undo like/dislike a reply
 - __Filter Related__
   * [x] Add new category
   * [x] List all categories

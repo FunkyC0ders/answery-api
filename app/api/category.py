@@ -1,7 +1,7 @@
 from graphene import ObjectType, Mutation, InputObjectType, Interface, String, ID, Boolean, Int, DateTime, Field, List
 from graphql import GraphQLError
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from .translation import Translation, NewTranslation
+from .translation import Translation, TranslationInput
 from app.models.category import Category as CategoryModel
 
 
@@ -22,7 +22,7 @@ class Category(ObjectType):
 
 
 class NewCategory(CommonAttributes, InputObjectType):
-    name = List(NewTranslation, required=True)
+    name = List(TranslationInput, required=True)
 
 
 class AddCategory(Mutation):
@@ -33,6 +33,7 @@ class AddCategory(Mutation):
     class Arguments:
         category_data = NewCategory(required=True)
 
+    ok = Boolean(required=True)
     category = Field(lambda: Category, required=True)
 
     @staticmethod
@@ -43,4 +44,4 @@ class AddCategory(Mutation):
         category = CategoryModel(**category_data)
         category.save()
 
-        return AddCategory(category=category)
+        return AddCategory(category=category, ok=True)

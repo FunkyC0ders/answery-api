@@ -1,7 +1,7 @@
 from graphene import ObjectType, Mutation, InputObjectType, Interface, String, ID, Boolean, Int, DateTime, Field, List
 from graphql import GraphQLError
 from flask_jwt_extended import jwt_required
-from .translation import Translation, NewTranslation
+from .translation import Translation, TranslationInput
 from app.models.location import City as CityModel, Country as CountryModel
 import json
 
@@ -49,7 +49,7 @@ class Location(ObjectType):
 
 
 class NewCountry(CommonAttributes, InputObjectType):
-    name = List(NewTranslation, required=True)
+    name = List(TranslationInput, required=True)
 
 
 class AddCountry(Mutation):
@@ -60,6 +60,7 @@ class AddCountry(Mutation):
     class Arguments:
         country_data = NewCountry(required=True)
 
+    ok = Boolean(required=True)
     country = Field(lambda: Country, required=True)
 
     @staticmethod
@@ -70,11 +71,11 @@ class AddCountry(Mutation):
         country = CountryModel(**country_data)
         country.save()
 
-        return AddCountry(country=country)
+        return AddCountry(country=country, ok=True)
 
 
 class NewCity(CommonAttributes, InputObjectType):
-    name = List(NewTranslation, required=True)
+    name = List(TranslationInput, required=True)
     country_id = ID(required=True)
 
 
@@ -86,6 +87,7 @@ class AddCity(Mutation):
     class Arguments:
         city_data = NewCity(required=True)
 
+    ok = Boolean(required=True)
     city = Field(lambda: City, required=True)
     location = Field(lambda: Location, required=True)
 
@@ -106,4 +108,4 @@ class AddCity(Mutation):
         city = CityModel(country=country, **city_data)
         city.save()
 
-        return AddCity(city=city, location=city.to_location())
+        return AddCity(city=city, location=city.to_location(), ok=True)
